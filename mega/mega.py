@@ -212,7 +212,7 @@ class Mega(object):
     def uploadfile(self, filename, dst=None):
         if not dst:
             root_id = getattr(self, 'root_id', None)
-            if root_id == None:
+            if root_id is None:
                 self.get_files()
             dst = self.root_id
         infile = open(filename, 'rb')
@@ -271,9 +271,8 @@ class Mega(object):
                ul_key[4], ul_key[5],
                meta_mac[0], meta_mac[1]]
         encrypted_key = a32_to_base64(encrypt_key(key, self.master_key))
-        data = self.api_req({'a': 'p', 't': dst, 'n': [
+        return self.api_req({'a': 'p', 't': dst, 'n': [
             {'h': completion_handle,
              't': 0,
              'a': enc_attributes,
              'k': encrypted_key}]})
-        return data
